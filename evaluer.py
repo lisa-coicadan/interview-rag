@@ -1,9 +1,7 @@
 from utils import collection, get_embedding, client
 
 questions_test = [
-    "Quelle expérience montre que j'ai travaillé avec des développeurs ?",
-    "Pourquoi ai-je commencé à m'intéresser à l'IA ?",
-    "Quels exemples puis-je utiliser pour montrer ma high agency ?",
+    "Quel est le job chez [Entreprise] ? Résume les tâches attendues et les compétences demandées.",
 ]
 
 for question in questions_test:
@@ -14,7 +12,7 @@ for question in questions_test:
     question_embedding = get_embedding(question)
     results = collection.query(
         query_embeddings=[question_embedding],
-        n_results=3
+        n_results=5
     )
 
     for i, doc in enumerate(results["documents"][0]):

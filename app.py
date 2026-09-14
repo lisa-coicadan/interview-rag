@@ -17,6 +17,10 @@ st.title(f"Interview Copilot — {conversation_active}")
 if "historiques" not in st.session_state:
     st.session_state.historiques = {conv: [] for conv in conversations}
 
+if st.sidebar.button("Recommencer cette conversation"):
+    st.session_state.historiques[conversation_active] = []
+    st.rerun()
+
 historique = st.session_state.historiques[conversation_active]
 
 for q, r, p in historique:
@@ -32,9 +36,17 @@ question = st.chat_input("Ta question :")
 if question:
     question_embedding = get_embedding(question)
 
+    if conversation_active in entreprises:
+        filtre = {"company": conversation_active}
+    elif conversation_active == "Technical learning":
+        filtre = {"category": "technique"}
+    else:
+        filtre = None
+
     results = collection.query(
         query_embeddings=[question_embedding],
-        n_results=3
+        n_results=5,
+        where=filtre
     )
 
     chunks_trouves = results["documents"][0]

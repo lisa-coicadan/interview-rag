@@ -5,7 +5,7 @@ question_embedding = get_embedding(question)
 
 results = collection.query(
     query_embeddings=[question_embedding],
-    n_results=3
+    n_results=5
 )
 
 chunks_trouves = results["documents"][0]
